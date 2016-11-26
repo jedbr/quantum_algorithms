@@ -1,71 +1,66 @@
 class MyComplex
   include Math
-  attr_reader :a, :b
+  attr_reader :re, :im
 
-  def initialize (a, b)
-    @a = a.to_f
-    @b = b.to_f
+  def initialize (re, im)
+    @re = re.to_f
+    @im = im.to_f
   end
 
-  def +(y)
-    raise TypeError.new unless y.class == MyComplex
-    MyComplex.new(@a + y.a, @b + y.b)
+  def +(z)
+    raise_error(z) unless z.class == MyComplex
+    MyComplex.new(@re + z.re, @im + z.im)
   end
 
-  def -(y)
-    raise TypeError.new unless y.class == MyComplex
-    MyComplex.new(@a - y.a, @b - y.b)
+  def -(z)
+    raise_error(z) unless z.class == MyComplex
+    MyComplex.new(@re - z.re, @im - z.im)
   end
 
-  def *(y)
-    raise TypeError.new unless y.class == MyComplex
-    a = @a * y.a - @b * y.b
-    b = @b * y.a + @a * y.b
-    MyComplex.new(a, b)
+  def *(z)
+    raise_error(z) unless z.class == MyComplex
+    re = @re * z.re - @im * z.im
+    im = @im * z.re + @re * z.im
+    MyComplex.new(re, im)
   end
 
-  def /(y)
-    raise TypeError.new unless y.class == MyComplex
-    a = (@a * y.a + @b * y.b) / (y.a ** 2 + y.b ** 2)
-    b = (@b * y.a - @a * y.b) / (y.a ** 2 + y.b ** 2)
-    MyComplex.new(a, b)
+  def /(z)
+    raise_error(z) unless z.class == MyComplex
+    re = (@re * z.re + @im * z.im) / (z.re ** 2 + z.im ** 2)
+    im = (@im * z.re - @re * z.im) / (z.re ** 2 + z.im ** 2)
+    MyComplex.new(re, im)
   end
 
   def conjugate
-    MyComplex.new(@a, -@b)
+    MyComplex.new(@re, -@im)
   end
 
   def modulus
-    sqrt(@a ** 2 + @b ** 2)
+    sqrt(@re ** 2 + @im ** 2)
   end
 
   def argument
-    atan2(@b, @a)
+    atan2(@im, @re)
   end
 
   def reciprocal
-    a = @a / (@a ** 2 + @b ** 2)
-    b = -@b / (@a ** 2 + @b ** 2)
-    MyComplex.new(a, b)
+    re = @re / (@re ** 2 + @im ** 2)
+    im = -@im / (@re ** 2 + @im ** 2)
+    MyComplex.new(re, im)
   end
 
-  def inverse
-    MyComplex.new(-@a, -@b)  
+  def opposite
+    MyComplex.new(-@re, -@im)  
   end
 
   def x_pow(x)
-    e = E ** (@a * log(x))
-    a = e * cos(@b * log(x)) 
-    b = e * sin(@b * log(x))
-    MyComplex.new(a, b)
+    e = E ** (@re * log(x))
+    re = e * cos(@im * log(x)) 
+    im = e * sin(@im * log(x))
+    MyComplex.new(re, im)
   end
 
-  def re
-    @a
-  end
-
-  def im
-    @b
+  def raise_error(x)
+    raise TypeError.new("#{x.class} can't be coerced into MyComplex")
   end
 end
-
