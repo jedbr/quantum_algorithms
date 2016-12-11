@@ -60,6 +60,8 @@ class MyComplex
     MyComplex.new(re, im)
   end
 
+  private
+
   def raise_error(x)
     raise TypeError.new("#{x.class} can't be coerced into MyComplex")
   end
