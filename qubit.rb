@@ -9,6 +9,17 @@ class Qubit
   def vector
     [@a, @b]
   end
+
+  def -(q)
+    raise_error unless q.class == Qubit
+    new_vector = []
+    
+    vector.each_with_index do |z, i|
+      new_vector << z - q.vector[i]
+    end
+    
+    Qubit.new(new_vector.first, new_vector.last)
+  end
   
   def scalar_product
     @a.modulus ** 2 + @b.modulus ** 2
@@ -20,13 +31,8 @@ class Qubit
   
   def distance_to(q)
     raise_error unless q.class == Qubit
-    vectors = []
-    
-    vector.each_with_index do |z, i|
-      vectors << z - q.vector[i]
-    end
-    
-    Qubit.new(vectors.first, vectors.last).length
+    new_qubit = self - q
+    new_qubit.length
   end
   
   private
