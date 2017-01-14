@@ -40,6 +40,18 @@ class Qubit
     return @measurement unless @measurement.nil?
     threshold = @a.modulus ** 2
     @measurement = rand < threshold ? 0 : 1
+  end  
+
+  def negate
+    a = @a * 0 + @b * 1
+    b = @a * 1 + @b * 0
+    @a, @b = a, b
+  end
+
+  def hadamard
+    a = @a * 1/sqrt(2) + @b * 1/sqrt(2)
+    b = @a * 1/sqrt(2) - @b * 1/sqrt(2)
+    @a, @b = a, b
   end
   
   private
