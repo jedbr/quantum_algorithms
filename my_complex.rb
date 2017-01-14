@@ -63,6 +63,7 @@ class MyComplex
   private
 
   def normalize(z)
+    return z if z.class == MyComplex
     if ['Fixnum', 'Float', 'Bignum'].include?(z.class.to_s)
       MyComplex.new(z, 0)
     else
