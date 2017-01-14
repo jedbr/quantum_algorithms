@@ -1,5 +1,6 @@
 class Qubit
   include Math
+  attr_reader :a, :b
   
   def initialize(a, b)
     @a = a
@@ -33,6 +34,12 @@ class Qubit
     raise_error unless q.class == Qubit
     new_qubit = self - q
     new_qubit.length
+  end
+
+  def measure
+    return @measurement unless @measurement.nil?
+    threshold = @a.modulus ** 2
+    @measurement = rand < threshold ? 0 : 1
   end
   
   private
