@@ -8,24 +8,24 @@ class MyComplex
   end
 
   def +(z)
-    raise_error(z) unless z.class == MyComplex
+    z = normalize(z)
     MyComplex.new(@re + z.re, @im + z.im)
   end
 
   def -(z)
-    raise_error(z) unless z.class == MyComplex
+    z = normalize(z)
     MyComplex.new(@re - z.re, @im - z.im)
   end
 
   def *(z)
-    raise_error(z) unless z.class == MyComplex
+    z = normalize(z)
     re = @re * z.re - @im * z.im
     im = @im * z.re + @re * z.im
     MyComplex.new(re, im)
   end
 
   def /(z)
-    raise_error(z) unless z.class == MyComplex
+    z = normalize(z)
     re = (@re * z.re + @im * z.im) / (z.re ** 2 + z.im ** 2)
     im = (@im * z.re - @re * z.im) / (z.re ** 2 + z.im ** 2)
     MyComplex.new(re, im)
@@ -62,7 +62,12 @@ class MyComplex
 
   private
 
-  def raise_error(x)
-    raise TypeError.new("#{x.class} can't be coerced into MyComplex")
+  def normalize(z)
+    if ['Fixnum', 'Float', 'Bignum'].include?(z.class.to_s)
+      MyComplex.new(z, 0)
+    else
+      raise TypeError.new("#{z.class} can't be coerced into MyComplex")
+    end
   end
 end
+
