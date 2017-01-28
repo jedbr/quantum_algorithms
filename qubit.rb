@@ -46,12 +46,14 @@ class Qubit
     a = @a * 0 + @b * 1
     b = @a * 1 + @b * 0
     @a, @b = a, b
+    self
   end
 
   def hadamard
     a = @a * 1/sqrt(2) + @b * 1/sqrt(2)
     b = @a * 1/sqrt(2) - @b * 1/sqrt(2)
     @a, @b = a, b
+    self
   end
   
   private
